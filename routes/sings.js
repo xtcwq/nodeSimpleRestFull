@@ -8,8 +8,8 @@ var sings = db.get('sings');
 
 //all sings json
 exports.list = function(req, res) {	
-	sings.find({}).then((res) => {
-		res.json(res);
+	sings.find({}).then((sing) => {
+		res.json(sing);
 	}).then(() => db.close());   
 };
 
@@ -25,8 +25,8 @@ exports.add = function(req, res) {
 	sings.findOne({}, {sort: {id: -1}}).then((obj)=>{
 		var sing=req.body;
 		sing.id=(parseInt(obj.id)+1)+"";
-		sings.insert(sing).then((res) => {
-		 res.json(res);
+		sings.insert(sing).then((sing) => {
+		 res.json(sing);
 	   }).then(() => db.close());
 	});
 };
