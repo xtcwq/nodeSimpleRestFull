@@ -3,9 +3,18 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+  
+      function toLogin(){
+        let getUrl = window.location;  
+        window.location.href = getUrl+"login";
+      }
+    </script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    
+  <button onclick="toLogin()"> login</button>
   </body>
 </html>

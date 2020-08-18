@@ -1,9 +1,11 @@
-// Or use  mongoose to create the connection
 
-var Schema = require('mongoose').Schema;
-var MODEL = Schema({
-    Type: String,
-    Name: String,  
+// Or use  mongoose connection
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/albumSeven', {useNewUrlParser: true});
+var MODEL = mongoose.Schema({    
+    UserName: String,
+    Password: String, 
+    Name: String,
     meta:{
         createdAt:{
             type:Date,
@@ -14,8 +16,7 @@ var MODEL = Schema({
             default:Date.now()
         }
     }
-}, {collection: "Sing"});
-
+}, {collection: "User"});
 
 MODEL.statics = {
     findByKeyValue : function( KeyValue, cb ) {
@@ -31,3 +32,5 @@ MODEL.pre("save",function(next) {
     }
     next();
 });
+
+module.exports = mongoose.model('UserMODEL', MODEL);

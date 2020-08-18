@@ -1,5 +1,5 @@
 var express = require('express'),
-	sings = require('./routes/sings'),
+	sings = require('./routes/singsRouter'),
 	http = require('http'),
 	path = require('path'),
 	session = require("express-session"),
@@ -21,7 +21,16 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
+
+//session
+app.use(cookieParser());
+app.use(session({
+    secret : "scrFor7",
+    cookie: {maxAge: 30000 },  
+    resave: false,
+    saveUninitialized: true,
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 //header traite
@@ -42,10 +51,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
 // development only
 if('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
+
+
+app.use(app.router);
 
 //login
 app.get('/login',function (req, res){
@@ -61,14 +74,7 @@ app.post('/sings/sing', sings.add);
 app.delete('/sings/id/:id', sings.del);
 app.put('/sings/sing', sings.update);
 
-//session
-app.use(cookieParser());
-app.use(session({
-    secret : "scrFor7",
-    cookie: {maxAge: 30000 },  
-    resave: false,
-    saveUninitialized: true,
-}));
+
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));
